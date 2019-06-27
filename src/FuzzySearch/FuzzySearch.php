@@ -4,7 +4,18 @@ namespace FuzzySearch;
 
 class FuzzySearch
 {
+    /**
+     * Array to be searched
+     *
+     * @var array
+     */
     private $list;
+
+    /**
+     * Key from array used to search
+     *
+     * @var string
+     */
     private $key;
 
     public function __construct(array $list, string $key)
@@ -13,35 +24,64 @@ class FuzzySearch
         $this->key = $key;
     }
 
+    /**
+     * Perform a fuzzy searching on the list passed using the term searched
+     *
+     * @param string $term
+     * @param integer $threshold
+     * @return array
+     */
     public function search(string $term, int $threshold = 3): array
     {
         $termSanitized = $this->sanitizeValue($term);
-        return $termSanitized; // Not finished yet. Only returns the terms searched and if a number returns the own number and the spelled out number
 
         $matches = [];
         foreach ($termSanitized as $term) {
-            $matches[] = $this->distance($term, $threshold);
+            $match = $this->distance($term, $threshold);
+            $matches = array_merge($matches, $match);
         }
+
+        $matches = array_reverse(array_reverse(array_values(array_column(
+            array_reverse($matches),
+            null,
+            $this->key
+        ))));
+
+        usort($matches, function ($a, $b) {
+            return $a['distance'] <=> $b['distance'];
+        });
 
         return $matches;
     }
 
+    /**
+     * Calc the distance between the term and list items using levenshtein function
+     *
+     * @param string $term
+     * @param integer $threshold
+     * @return array
+     */
     protected function distance(string $term, int $threshold): array
     {
         $matches = [];
         foreach ($this->list as $row) {
-            $distance = levenshtein($term, $row[$this->key]);
+            $distance = levenshtein(strtolower($term), strtolower($row[$this->key]));
 
-            if ($threshold >= $distance && strpos($term, $row[$this->key]) !== false) {
-                $matches[] = [$distance, $row];
+            if ($threshold >= $distance) {
+                $row['distance'] = $distance;
+                $matches[] = $row;
             }
         }
 
         return $matches;
-
-        // return $this->transformResult($this->sortMatchedStrings($matches));
     }
 
+    /**
+     * Sanitization of term using regex and getting similar values to number and its spelled out version
+     *
+     * @param string $term
+     * @return array
+     */
     protected function sanitizeValue(string $term): array
     {
         $term = $this->stripSpecialCharacters($term);
@@ -65,6 +105,12 @@ class FuzzySearch
         return $variationsToSearch;
     }
 
+    /**
+     * Remove special characters and slashs using regex
+     *
+     * @param string $term
+     * @return string
+     */
     protected function stripSpecialCharacters(string $term): string
     {
         $newTerm = preg_replace('/[^\da-z ]/i', '', $term);
@@ -73,6 +119,12 @@ class FuzzySearch
         return trim($newTerm);
     }
 
+    /**
+     * Convert a number in its spelled out version
+     *
+     * @param string $term
+     * @return string
+     */
     protected function intToWords(string $term): string
     {
         /**
@@ -84,7 +136,13 @@ class FuzzySearch
         return $f->format($term);
     }
 
-    protected function wordsToInt(string $term)
+    /**
+     * Convert a spelled out number in its numeric version
+     *
+     * @param string $term
+     * @return integer
+     */
+    protected function wordsToInt(string $term): int
     {
         // Replace all number words with an equivalent numeric value
         $data = strtr(
@@ -169,24 +227,4 @@ class FuzzySearch
 
         return $sum + $stack->pop();
     }
-
-    // protected function sortMatchedStrings(array $matched)
-    // {
-    //     usort($matched, function (array $left, array $right) {
-    //         return ($left[0] - $right[0]);
-    //     });
-
-    //     return $matched;
-    // }
-
-    // protected function transformResult(array $matched)
-    // {
-    //     $iterator = function (array $element) {
-    //         return $element[1];
-    //     };
-
-    //     return array_map($iterator, $matched);
-    // }
-
-
 }
