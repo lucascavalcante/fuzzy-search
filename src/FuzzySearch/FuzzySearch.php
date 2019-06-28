@@ -41,11 +41,7 @@ class FuzzySearch
             $matches = array_merge($matches, $match);
         }
 
-        $matches = array_reverse(array_reverse(array_values(array_column(
-            array_reverse($matches),
-            null,
-            $this->key
-        ))));
+        $matches = array_values(array_column(array_reverse($matches), null, $this->key));
 
         usort($matches, function ($a, $b) {
             return $a['distance'] <=> $b['distance'];
