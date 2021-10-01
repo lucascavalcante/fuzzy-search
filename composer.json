@@ -11,11 +11,20 @@
         }
     ],
     "require": {
-        "php": ">= 7.0"
+        "php": ">= 7.0",
+        "ext-intl": "*"
     },
     "autoload": {
         "psr-4": {
             "FuzzySearch\\": "src/FuzzySearch"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\": "tests"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
     }
 }
