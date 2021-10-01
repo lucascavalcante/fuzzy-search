@@ -2,8 +2,6 @@
 
 A PHP library that turns easy fuzzy string searching
 
-![Screenshot from Packagist](packagist.png)
-
 ## Installation
 
 `composer require lucascavalcante/fuzzy-search`
