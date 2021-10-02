@@ -1,0 +1,47 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method FuzzySearch\\\\FuzzySearch\\:\\:__construct\\(\\) has parameter \\$list with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/FuzzySearch/FuzzySearch.php
+
+		-
+			message: "#^Method FuzzySearch\\\\FuzzySearch\\:\\:distance\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/FuzzySearch/FuzzySearch.php
+
+		-
+			message: "#^Method FuzzySearch\\\\FuzzySearch\\:\\:sanitizeValue\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/FuzzySearch/FuzzySearch.php
+
+		-
+			message: "#^Method FuzzySearch\\\\FuzzySearch\\:\\:search\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/FuzzySearch/FuzzySearch.php
+
+		-
+			message: "#^Parameter \\#1 \\$str of function trim expects string, string\\|null given\\.$#"
+			count: 1
+			path: src/FuzzySearch/FuzzySearch.php
+
+		-
+			message: "#^Parameter \\#2 \\$input1 of function array_map expects array, array\\<int, string\\>\\|false given\\.$#"
+			count: 1
+			path: src/FuzzySearch/FuzzySearch.php
+
+		-
+			message: "#^Property FuzzySearch\\\\FuzzySearch\\:\\:\\$list type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/FuzzySearch/FuzzySearch.php
+
+		-
+			message: "#^Method Test\\\\FuzzySearch\\\\FuzzySearchTest\\:\\:testSearch\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: tests/FuzzySearch/FuzzySearchTest.php
+
+		-
+			message: "#^Property Test\\\\FuzzySearch\\\\FuzzySearchTest\\:\\:\\$series type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: tests/FuzzySearch/FuzzySearchTest.php
+
