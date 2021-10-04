@@ -9,7 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: PHPStan Static Analysis
-        uses: php-actions/phpstan@v3
+      - name: Run phpstan
+        uses: actions-x/phpstan@v1
         with:
-          path: src/ tests/
+          directories: src/ tests/
+          level: 8
+          phpstanVersion: ^0.12
