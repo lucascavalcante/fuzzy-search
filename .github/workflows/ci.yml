@@ -1,14 +1,16 @@
 name: PHP Static Analysis
-on: [push, pull_request]
+on:
+  pull_request:
+
 jobs:
   phpstan:
     name: phpstan
     runs-on: ubuntu-latest
     steps:
       - name: Setup PHP
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.3'
+          php-version: '8.0'
           extensions: intl
           tools: phpstan
 
