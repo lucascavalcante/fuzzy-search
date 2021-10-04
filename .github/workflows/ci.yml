@@ -1,0 +1,24 @@
+name: PHP Static Analysis
+on:
+  pull_request:
+
+jobs:
+  phpstan:
+    name: phpstan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          extensions: intl
+          tools: phpstan
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - run: composer install --prefer-dist
+
+      - name: Run phpstan
+        run: phpstan analyse -c phpstan.neon --level=8 "src/" "tests/"
