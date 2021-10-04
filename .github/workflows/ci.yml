@@ -16,4 +16,4 @@ jobs:
       - name: PHPStan
         uses: docker://oskarstark/phpstan-ga
         with:
-          args: analyse src/ tests/
+          args: analyse src/ tests/ --level=8
