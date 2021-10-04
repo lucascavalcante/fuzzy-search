@@ -8,9 +8,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: php-actions/composer@v5
+
+      - name: Install dependencies
+        uses: php-actions/composer@master
+        with:
+          php_version: 8.0
+          version: 1
+          ssh_key: ${{ secrets.SSH_KEY }}
+          ssh_key_pub: ${{ secrets.SSH_KEY_PUB }}
 
       - name: PHPStan Static Analysis
         uses: php-actions/phpstan@v3
         with:
-          path: src/
+          path: src/ tests/
